@@ -1,0 +1,3 @@
+server/data/content.json
+public/uploads/*
+!.gitkeep
