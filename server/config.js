@@ -22,3 +22,6 @@ export const DATA_DIR = path.join(__dirname, "data");
 export const CONTENT_FILE = path.join(DATA_DIR, "content.json");
 export const UPLOADS_DIR = path.join(__dirname, "uploads");
 export const PUBLIC_UPLOADS_DIR = path.join(__dirname, "..", "public", "uploads");
+export const DIST_DIR = path.join(__dirname, "..", "dist");
+export const NODE_ENV = process.env.NODE_ENV || "development";
+export const IS_PRODUCTION = NODE_ENV === "production";

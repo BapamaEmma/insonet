@@ -11,8 +11,11 @@ const server = createServer((req, res) => {
   handleRequest(req, res);
 });
 
-server.listen(PORT, () => {
-  console.log(`INSONET CMS API running at http://localhost:${PORT}`);
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`INSONET server running on port ${PORT}`);
+  if (process.env.NODE_ENV === "production") {
+    console.log("Production mode: serving built site from /dist");
+  }
   if (isContactEmailConfigured()) {
     console.log(`Contact form emails will be sent to ${CONTACT_NOTIFY_EMAIL}`);
   } else {

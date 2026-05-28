@@ -12,6 +12,7 @@
     "dev:all": "node scripts/dev-stable.js",
     "seed": "node server/seed.js",
     "build": "vite build",
+    "start": "NODE_ENV=production node server/index.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },

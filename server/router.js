@@ -1,8 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
-import { createReadStream, existsSync } from "fs";
+import { createReadStream, existsSync, statSync } from "fs";
 import { fileURLToPath } from "url";
-import { ADMIN_EMAIL, ADMIN_PASSWORD, CONTACT_NOTIFY_EMAIL, PUBLIC_UPLOADS_DIR } from "./config.js";
+import { ADMIN_EMAIL, ADMIN_PASSWORD, CONTACT_NOTIFY_EMAIL, DIST_DIR, IS_PRODUCTION, PUBLIC_UPLOADS_DIR } from "./config.js";
 import { verifyToken, createToken } from "./utils/token.js";
 import { readContent, writeContent, listMediaFiles } from "./utils/storage.js";
 import { sendContactNotification } from "./utils/mail.js";
@@ -209,6 +209,64 @@ function serveUpload(req, res, pathname) {
   createReadStream(filePath).pipe(res);
 }
 
+const STATIC_MIME_TYPES = {
+  ".html": "text/html; charset=utf-8",
+  ".js": "text/javascript; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".gif": "image/gif",
+  ".webp": "image/webp",
+  ".svg": "image/svg+xml",
+  ".ico": "image/x-icon",
+  ".woff": "font/woff",
+  ".woff2": "font/woff2",
+  ".txt": "text/plain; charset=utf-8",
+};
+
+function serveStatic(req, res, pathname) {
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    return sendError(res, 405, "Method not allowed");
+  }
+
+  if (!existsSync(DIST_DIR)) {
+    return sendError(res, 503, "Site build missing. Run npm run build before starting the server.");
+  }
+
+  const relativePath = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
+  const filePath = path.resolve(DIST_DIR, relativePath);
+
+  if (!filePath.startsWith(DIST_DIR)) {
+    return sendError(res, 403, "Forbidden");
+  }
+
+  const sendFile = (targetPath) => {
+    const ext = path.extname(targetPath).toLowerCase();
+    setCors(res);
+    res.writeHead(200, { "Content-Type": STATIC_MIME_TYPES[ext] || "application/octet-stream" });
+    if (req.method === "HEAD") {
+      res.end();
+      return;
+    }
+    createReadStream(targetPath).pipe(res);
+  };
+
+  if (existsSync(filePath) && statSync(filePath).isFile()) {
+    return sendFile(filePath);
+  }
+
+  if (!path.extname(pathname)) {
+    const indexPath = path.join(DIST_DIR, "index.html");
+    if (existsSync(indexPath)) {
+      return sendFile(indexPath);
+    }
+  }
+
+  return sendError(res, 404, "Not found");
+}
+
 const routes = [
   route("GET", "/api/health", handleHealth),
   route("POST", "/api/auth/login", handleLogin),
@@ -241,13 +299,18 @@ export async function handleRequest(req, res) {
   }
 
   const matched = matchRoute(req.method, pathname, routes);
-  if (!matched) {
-    return sendError(res, 404, "Not found");
+  if (matched) {
+    try {
+      await matched.handler(req, res, matched.params);
+    } catch (error) {
+      sendError(res, 500, error.message || "Server error");
+    }
+    return;
   }
 
-  try {
-    await matched.handler(req, res, matched.params);
-  } catch (error) {
-    sendError(res, 500, error.message || "Server error");
+  if (IS_PRODUCTION && !pathname.startsWith("/api/")) {
+    return serveStatic(req, res, pathname);
   }
+
+  return sendError(res, 404, "Not found");
 }
