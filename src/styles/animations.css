@@ -56,6 +56,55 @@
   transform: scale(1.08);
 }
 
+.projects-carousel__track {
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.projects-carousel__slide {
+  box-sizing: border-box;
+}
+
+.hero-badge-pill {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 10px 20px;
+}
+
+.hero-badge-text {
+  display: block;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .hero-intro-col {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .hero-badge-pill {
+    display: inline-block;
+    width: fit-content;
+    max-width: 100%;
+    padding: 9px 16px !important;
+  }
+
+  .hero-badge-text {
+    font-size: clamp(0.75rem, 2.85vw, 0.9375rem) !important;
+    letter-spacing: 0.04em;
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-badge-text {
+    font-size: 1.125rem;
+    letter-spacing: 0.05em;
+  }
+}
+
 .nav-services-menu {
   position: absolute;
   left: 0;

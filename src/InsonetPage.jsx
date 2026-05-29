@@ -33,8 +33,14 @@ export default function InsonetPage() {
   const [typedCount, setTypedCount] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
   const [projectSlide, setProjectSlide] = useState(0);
-  const projectsPerPage = 3;
-  const maxProjectSlide = Math.ceil(projectCards.length / projectsPerPage) - 1;
+  const [projectsPerView, setProjectsPerView] = useState(() => {
+    if (typeof window === "undefined") return 3;
+    if (window.innerWidth >= 1024) return 3;
+    if (window.innerWidth >= 768) return 2;
+    return 1;
+  });
+  const maxProjectSlide = Math.max(0, projectCards.length - projectsPerView);
+  const slideStep = 100 / projectsPerView;
 
   useEffect(() => {
     const cursorIntervalId = window.setInterval(() => {
@@ -54,6 +60,31 @@ export default function InsonetPage() {
 
     return () => window.clearTimeout(timeoutId);
   }, [typedCount, totalTypingChars]);
+
+  useEffect(() => {
+    const onResize = () => {
+      const width = window.innerWidth;
+      const nextPerView = width >= 1024 ? 3 : width >= 768 ? 2 : 1;
+      setProjectsPerView(nextPerView);
+    };
+
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    setProjectSlide((prev) => Math.min(prev, maxProjectSlide));
+  }, [maxProjectSlide]);
+
+  useEffect(() => {
+    if (projectsPerView !== 1 || projectCards.length <= 1) return undefined;
+
+    const intervalId = window.setInterval(() => {
+      setProjectSlide((prev) => (prev >= maxProjectSlide ? 0 : prev + 1));
+    }, 4500);
+
+    return () => window.clearInterval(intervalId);
+  }, [projectsPerView, maxProjectSlide, projectCards.length]);
 
   useEffect(() => {
     const appendedScripts = [];
@@ -122,20 +153,19 @@ export default function InsonetPage() {
         <div className="container relative z-[2]">
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 items-center">
-                <div className="relative z-10 text-sm py-20 px-10">
+                <div className="hero-intro-col relative z-10 text-sm py-20 px-10">
                     <FadeInUp delay={0.08}>
                     <div
-                      className="inline-block w-fit max-w-full"
+                      className="hero-badge-pill max-w-full"
                       style={{
-                        padding: "10px 20px",
                         border: "0.5px solid rgba(26, 86, 219, 0.45)",
                         borderRadius: "9999px",
                         backgroundColor: "#ffffff",
                       }}
                     >
-                      <span className="text-base md:text-lg text-black font-medium tracking-wide uppercase leading-snug">
+                      <span className="hero-badge-text font-light uppercase leading-snug" style={{ color: "#94a3b8" }}>
                         {visibleNormalText}
-                        <span style={{ color: "#1a56db" }}>{visibleHighlightedText}</span>
+                        <span style={{ color: "#7ba3ff", fontWeight: 400 }}>{visibleHighlightedText}</span>
                         {showCursor ? <span className="ml-0.5">|</span> : null}
                       </span>
                     </div>
@@ -331,29 +361,31 @@ export default function InsonetPage() {
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mt-3">Recent Implementations</h2>
             </ScrollReveal>
 
-            <div className="mt-14 overflow-hidden">
+            <div className="mt-14 overflow-hidden projects-carousel">
                 <div
-                    className="flex transition-transform duration-700 ease-in-out"
-                    style={{ transform: `translateX(-${projectSlide * 100}%)` }}
+                    className="flex projects-carousel__track"
+                    style={{ transform: `translateX(-${projectSlide * slideStep}%)` }}
                 >
-                    {Array.from({ length: Math.ceil(projectCards.length / projectsPerPage) }).map((_, pageIndex) => (
-                        <div key={pageIndex} className="w-full flex-shrink-0 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
-                            {projectCards.slice(pageIndex * projectsPerPage, pageIndex * projectsPerPage + projectsPerPage).map((project) => (
-                                <article key={project.title} className="rounded-2xl overflow-hidden bg-slate-900 shadow-xl">
-                                    <div className="overflow-hidden" style={{ height: "220px", borderRadius: "16px 16px 0 0" }}>
-                                        <img
-                                            src={project.image}
-                                            alt={project.alt}
-                                            className="w-full h-full object-cover"
-                                            style={{ objectPosition: project.objectPosition, borderRadius: "16px 16px 0 0" }}
-                                        />
-                                    </div>
-                                    <div className="px-6 py-5">
-                                        <h3 className="text-lg font-semibold text-slate-200">{project.title}</h3>
-                                        <p className="text-sm text-slate-400 mt-2 leading-6">{project.description}</p>
-                                    </div>
-                                </article>
-                            ))}
+                    {projectCards.map((project) => (
+                        <div
+                            key={project.title}
+                            className="projects-carousel__slide flex-shrink-0 px-3"
+                            style={{ width: `${slideStep}%` }}
+                        >
+                            <article className="rounded-2xl overflow-hidden bg-slate-900 shadow-xl h-full">
+                                <div className="overflow-hidden" style={{ height: "220px", borderRadius: "16px 16px 0 0" }}>
+                                    <img
+                                        src={project.image}
+                                        alt={project.alt}
+                                        className="w-full h-full object-cover"
+                                        style={{ objectPosition: project.objectPosition, borderRadius: "16px 16px 0 0" }}
+                                    />
+                                </div>
+                                <div className="px-6 py-5">
+                                    <h3 className="text-lg font-semibold text-slate-200">{project.title}</h3>
+                                    <p className="text-sm text-slate-400 mt-2 leading-6">{project.description}</p>
+                                </div>
+                            </article>
                         </div>
                     ))}
                 </div>
