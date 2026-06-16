@@ -82,9 +82,17 @@ export function ContentProvider({ children }) {
 
   useEffect(() => {
     let active = true;
+    const staticHosting = import.meta.env.VITE_STATIC_HOSTING === "true";
 
-    api
-      .getContent()
+    const loadContent = staticHosting
+      ? fetch("/content.json")
+          .then((response) => {
+            if (!response.ok) throw new Error("Could not load content.json");
+            return response.json();
+          })
+      : api.getContent();
+
+    loadContent
       .then((data) => {
         if (active) setContent(data);
       })

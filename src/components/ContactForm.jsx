@@ -3,6 +3,26 @@ import { AnimatePresence, motion } from "framer-motion";
 import { api } from "../api/client";
 import { fadeUpSmall } from "../utils/motion";
 
+const STATIC_HOSTING = import.meta.env.VITE_STATIC_HOSTING === "true";
+const CONTACT_ENDPOINT = import.meta.env.VITE_CONTACT_ENDPOINT || (STATIC_HOSTING ? "/contact.php" : "/api/contact");
+
+async function submitContact(payload) {
+  if (STATIC_HOSTING) {
+    const response = await fetch(CONTACT_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.error || `Request failed (${response.status})`);
+    }
+    return data;
+  }
+
+  return api.submitContact(payload);
+}
+
 export default function ContactForm() {
   const [status, setStatus] = useState("idle");
 
@@ -13,7 +33,7 @@ export default function ContactForm() {
     setStatus("loading");
 
     try {
-      await api.submitContact({
+      await submitContact({
         firstName: data.get("firstName"),
         lastName: data.get("lastName"),
         email: data.get("email"),

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CountUpNumber from "../components/CountUpNumber";
 import Navbar from "../components/Navbar";
@@ -35,15 +35,65 @@ function MetaChip({ icon, label }) {
   );
 }
 
+function CategoryFilterButton({ category, isActive, onSelect, ariaHidden = false }) {
+  return (
+    <button
+      type="button"
+      onClick={(event) => onSelect(category, event)}
+      aria-hidden={ariaHidden || undefined}
+      tabIndex={ariaHidden ? -1 : undefined}
+      style={{
+        padding: "10px 18px",
+        borderRadius: "9999px",
+        border: isActive ? "none" : "1px solid #cbd5e1",
+        backgroundColor: isActive ? "#0d1b2e" : "#ffffff",
+        color: isActive ? "#ffffff" : "#475569",
+        fontSize: "0.875rem",
+        fontWeight: 600,
+        cursor: "pointer",
+        transition: "all 0.2s ease",
+        boxShadow: isActive ? "0 4px 14px rgba(13,27,46,0.2)" : "none",
+        whiteSpace: "nowrap",
+        flexShrink: 0,
+      }}
+    >
+      {category}
+    </button>
+  );
+}
+
 export default function ProjectsPage() {
   const navigate = useNavigate();
   const { projects, projectCategories, projectStats } = useContent();
   const [activeCategory, setActiveCategory] = useState("All");
   const [hoveredId, setHoveredId] = useState(null);
+  const [marqueePaused, setMarqueePaused] = useState(false);
+  const marqueeResumeRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    return () => {
+      if (marqueeResumeRef.current) {
+        clearTimeout(marqueeResumeRef.current);
+      }
+    };
+  }, []);
+
+  const handleCategorySelect = (category, event) => {
+    setActiveCategory(category);
+    event?.currentTarget?.blur();
+
+    setMarqueePaused(true);
+    if (marqueeResumeRef.current) {
+      clearTimeout(marqueeResumeRef.current);
+    }
+    marqueeResumeRef.current = setTimeout(() => {
+      setMarqueePaused(false);
+    }, 700);
+  };
 
   const goContact = (e) => {
     e.preventDefault();
@@ -57,6 +107,10 @@ export default function ProjectsPage() {
     activeCategory === "All"
       ? projects
       : projects.filter((project) => project.category === activeCategory);
+
+  const mobileProjectCategories = projectCategories.filter(
+    (category) => category !== "All",
+  );
 
   return (
     <div className="min-h-screen bg-white">
@@ -115,6 +169,7 @@ export default function ProjectsPage() {
           </div>
 
           <div
+            className="projects-hero-stats"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
@@ -126,6 +181,7 @@ export default function ProjectsPage() {
             {projectStats.map((stat) => (
               <div
                 key={stat.label}
+                className="projects-hero-stat"
                 style={{
                   padding: "28px 32px",
                   borderRadius: "16px",
@@ -147,6 +203,7 @@ export default function ProjectsPage() {
                   }}
                 />
                 <p
+                  className="projects-hero-stat-label"
                   style={{
                     color: "#94a3b8",
                     fontSize: "0.875rem",
@@ -163,6 +220,7 @@ export default function ProjectsPage() {
 
       {/* Filter */}
       <section
+        className="projects-filter-section"
         style={{
           padding: "32px 0",
           backgroundColor: "#f8fafc",
@@ -172,7 +230,7 @@ export default function ProjectsPage() {
           zIndex: 40,
         }}
       >
-        <div className="container">
+        <div className="container projects-filter-desktop">
           <div
             style={{
               display: "flex",
@@ -181,30 +239,30 @@ export default function ProjectsPage() {
               justifyContent: "center",
             }}
           >
-            {projectCategories.map((category) => {
-              const isActive = activeCategory === category;
-              return (
-                <button
-                  key={category}
-                  type="button"
-                  onClick={() => setActiveCategory(category)}
-                  style={{
-                    padding: "10px 18px",
-                    borderRadius: "9999px",
-                    border: isActive ? "none" : "1px solid #cbd5e1",
-                    backgroundColor: isActive ? "#0d1b2e" : "#ffffff",
-                    color: isActive ? "#ffffff" : "#475569",
-                    fontSize: "0.875rem",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    transition: "all 0.2s ease",
-                    boxShadow: isActive ? "0 4px 14px rgba(13,27,46,0.2)" : "none",
-                  }}
-                >
-                  {category}
-                </button>
-              );
-            })}
+            {projectCategories.map((category) => (
+              <CategoryFilterButton
+                key={category}
+                category={category}
+                isActive={activeCategory === category}
+                onSelect={handleCategorySelect}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="projects-filter-marquee" aria-label="Project categories">
+          <div
+            className={`projects-filter-marquee__track${marqueePaused ? " is-paused" : ""}`}
+          >
+            {[...mobileProjectCategories, ...mobileProjectCategories].map((category, index) => (
+              <CategoryFilterButton
+                key={`${category}-${index}`}
+                category={category}
+                isActive={activeCategory === category}
+                onSelect={handleCategorySelect}
+                ariaHidden={index >= mobileProjectCategories.length}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -627,6 +685,91 @@ export default function ProjectsPage() {
       </section>
 
       <style>{`
+        .projects-filter-marquee {
+          display: none;
+        }
+
+        @keyframes projects-filter-marquee-ltr {
+          from {
+            transform: translateX(-50%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+
+        @media (max-width: 767px) {
+          .projects-filter-section {
+            padding: 20px 0 !important;
+          }
+
+          .projects-filter-desktop {
+            display: none;
+          }
+
+          .projects-filter-marquee {
+            display: block;
+            overflow: hidden;
+            width: 100%;
+            -webkit-mask-image: linear-gradient(
+              to right,
+              transparent,
+              #000 6%,
+              #000 94%,
+              transparent
+            );
+            mask-image: linear-gradient(
+              to right,
+              transparent,
+              #000 6%,
+              #000 94%,
+              transparent
+            );
+          }
+
+          .projects-filter-marquee__track {
+            display: flex;
+            gap: 10px;
+            width: max-content;
+            padding: 0 16px;
+            animation: projects-filter-marquee-ltr 40s linear infinite;
+          }
+
+          .projects-filter-marquee__track.is-paused {
+            animation-play-state: paused;
+          }
+
+          @media (hover: hover) and (pointer: fine) {
+            .projects-filter-marquee__track:hover:not(.is-paused) {
+              animation-play-state: paused;
+            }
+          }
+
+          .projects-hero-stats {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 10px !important;
+            max-width: 100% !important;
+          }
+          .projects-hero-stat {
+            padding: 16px 8px !important;
+            text-align: center;
+          }
+          .projects-hero-stat > p:first-child {
+            font-size: clamp(1.5rem, 7vw, 2.25rem) !important;
+          }
+          .projects-hero-stat-label {
+            font-size: 0.625rem !important;
+            line-height: 1.35 !important;
+            margin-top: 4px !important;
+          }
+        }
+
+        @media (min-width: 768px) {
+          .projects-filter-marquee {
+            display: none;
+          }
+        }
+
         @media (max-width: 991px) {
           .project-detail-layout {
             grid-template-columns: 1fr !important;

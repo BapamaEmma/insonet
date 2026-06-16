@@ -25,6 +25,9 @@ dist-ssr
 *.sw?
 
 .env
+insonet-deploy.zip
+hostinger-upload.zip
+public_html/
 server/data/content.json
 public/uploads/*
 !public/uploads/.gitkeep

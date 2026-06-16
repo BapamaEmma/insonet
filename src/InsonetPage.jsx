@@ -5,7 +5,6 @@ import BackToTopButton from "./components/BackToTopButton";
 import ContactForm from "./components/ContactForm";
 import Navbar from "./components/Navbar";
 import FadeInUp from "./components/motion/FadeInUp";
-import FloatingImage from "./components/motion/FloatingImage";
 import ScrollReveal from "./components/motion/ScrollReveal";
 import TechHeroBackground from "./components/TechHeroBackground";
 import { useContent } from "./context/ContentContext";
@@ -43,20 +42,24 @@ export default function InsonetPage() {
   const slideStep = 100 / projectsPerView;
 
   useEffect(() => {
+    if (typedCount >= totalTypingChars) {
+      setShowCursor(false);
+      return undefined;
+    }
+
     const cursorIntervalId = window.setInterval(() => {
       setShowCursor((prev) => !prev);
     }, 500);
 
     return () => window.clearInterval(cursorIntervalId);
-  }, []);
+  }, [typedCount, totalTypingChars]);
 
   useEffect(() => {
+    if (typedCount >= totalTypingChars) return undefined;
+
     const timeoutId = window.setTimeout(() => {
-      setTypedCount((prev) => {
-        if (prev >= totalTypingChars) return 0;
-        return prev + 1;
-      });
-    }, typedCount >= totalTypingChars ? 2200 : 85);
+      setTypedCount((prev) => prev + 1);
+    }, 85);
 
     return () => window.clearTimeout(timeoutId);
   }, [typedCount, totalTypingChars]);
@@ -138,6 +141,80 @@ export default function InsonetPage() {
   const visibleNormalText = visibleTypingText.slice(0, Math.max(highlightStartIndex, 0));
   const visibleHighlightedText =
     highlightStartIndex >= 0 ? visibleTypingText.slice(highlightStartIndex) : "";
+  const fullNormalText = typingText.slice(0, Math.max(highlightStartIndex, 0));
+  const fullHighlightedText =
+    highlightStartIndex >= 0 ? typingText.slice(highlightStartIndex) : "";
+  const typingComplete = typedCount >= totalTypingChars;
+
+  const renderHeroBadge = () => (
+    <FadeInUp delay={0.08} className="hero-badge-wrap w-full flex justify-center md:inline-flex md:w-auto md:justify-start">
+      <div
+        className="hero-badge-pill hero-badge-pill--typed max-w-full"
+        style={{
+          border: "0.5px solid rgba(26, 86, 219, 0.45)",
+          borderRadius: "9999px",
+          backgroundColor: "#ffffff",
+        }}
+      >
+        <span
+          className="hero-badge-text hero-badge-text-spacer font-light uppercase leading-snug"
+          aria-hidden="true"
+        >
+          {fullNormalText}
+          <span style={{ fontWeight: 400 }}>{fullHighlightedText}</span>
+        </span>
+        <span className="hero-badge-text hero-badge-text-visible font-light uppercase leading-snug" style={{ color: "#94a3b8" }}>
+          {visibleNormalText}
+          <span style={{ color: "#7ba3ff", fontWeight: 400 }}>{visibleHighlightedText}</span>
+          {!typingComplete && showCursor ? <span className="ml-0.5">|</span> : null}
+        </span>
+      </div>
+    </FadeInUp>
+  );
+
+  const renderHeroMainContent = () => (
+    <>
+      <motion.h1
+        className="text-5xl md:text-[42px] text-dark tracking-tight leading-tight font-bold mb-4 mt-0 md:mt-0 md:mb-3"
+        variants={staggerContainer(0.2)}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.span className="block whitespace-nowrap" variants={fadeUpSmall}>
+          {hero.headlineLine1}
+        </motion.span>
+        <motion.span className="block whitespace-nowrap" variants={fadeUpSmall}>
+          {hero.headlineLine2}
+        </motion.span>
+      </motion.h1>
+      <FadeInUp delay={0.35}>
+        <p className="text-base font-medium text-muted leading-7 mt-5 md:mt-3">{hero.subtext}</p>
+      </FadeInUp>
+      <motion.div
+        className="hero-cta-buttons flex flex-row flex-nowrap items-center justify-center gap-2 sm:gap-3 lg:justify-normal mt-9 md:mt-6 w-full max-w-full"
+        variants={staggerContainer(0.14)}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.a
+          href="#services"
+          onClick={scrollToSection("services")}
+          variants={fadeUpSmall}
+          className="btn-motion hero-cta-button relative z-10 cursor-pointer py-2 px-3 sm:px-6 rounded-md text-white text-sm sm:text-base bg-primary hover:bg-primaryDark border border-primary hover:border-primaryDark transition-all duration-500 font-medium flex-1 sm:flex-none text-center whitespace-nowrap"
+        >
+          Explore Services
+        </motion.a>
+        <motion.a
+          href="/projects"
+          onClick={goToProjects}
+          variants={fadeUpSmall}
+          className="btn-motion hero-cta-button relative z-10 cursor-pointer py-2 px-3 sm:px-6 rounded-md border border-primary text-sm sm:text-base text-primary hover:bg-primary hover:text-white transition-all duration-500 font-medium flex-1 sm:flex-none text-center whitespace-nowrap"
+        >
+          View Projects
+        </motion.a>
+      </motion.div>
+    </>
+  );
 
   return (
     <>
@@ -152,71 +229,29 @@ export default function InsonetPage() {
         <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-white/10 via-white/35 to-white/70" />
         <div className="container relative z-[2]">
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 items-center">
-                <div className="hero-intro-col relative z-10 text-sm py-20 px-10">
-                    <FadeInUp delay={0.08}>
-                    <div
-                      className="hero-badge-pill max-w-full"
-                      style={{
-                        border: "0.5px solid rgba(26, 86, 219, 0.45)",
-                        borderRadius: "9999px",
-                        backgroundColor: "#ffffff",
-                      }}
-                    >
-                      <span className="hero-badge-text font-light uppercase leading-snug" style={{ color: "#94a3b8" }}>
-                        {visibleNormalText}
-                        <span style={{ color: "#7ba3ff", fontWeight: 400 }}>{visibleHighlightedText}</span>
-                        {showCursor ? <span className="ml-0.5">|</span> : null}
-                      </span>
-                    </div>
-                    </FadeInUp>
-                    <motion.h1
-                      className="text-5xl md:text-[42px] text-dark tracking-tight leading-tight font-bold mb-4 mt-6"
-                      variants={staggerContainer(0.2)}
-                      initial="hidden"
-                      animate="visible"
-                    >
-                        <motion.span className="block whitespace-nowrap" variants={fadeUpSmall}>
-                          {hero.headlineLine1}
-                        </motion.span>
-                        <motion.span className="block whitespace-nowrap" variants={fadeUpSmall}>
-                          {hero.headlineLine2}
-                        </motion.span>
-                    </motion.h1>
-                    <FadeInUp delay={0.35}>
-                    <p className="text-base font-medium text-muted leading-7 mt-5">{hero.subtext}</p>
-                    </FadeInUp>
-                    <motion.div
-                      className="flex flex-wrap items-center justify-center gap-3 lg:justify-normal mt-9"
-                      variants={staggerContainer(0.14)}
-                      initial="hidden"
-                      animate="visible"
-                    >
-                        <motion.a
-                          href="#services"
-                          onClick={scrollToSection("services")}
-                          variants={fadeUpSmall}
-                          className="btn-motion relative z-10 cursor-pointer py-2 px-6 rounded-md text-white text-base bg-primary hover:bg-primaryDark border border-primary hover:border-primaryDark transition-all duration-500 font-medium"
-                        >
-                          Explore Services
-                        </motion.a>
-                        <motion.a
-                          href="/projects"
-                          onClick={goToProjects}
-                          variants={fadeUpSmall}
-                          className="btn-motion relative z-10 cursor-pointer py-2 px-6 rounded-md border border-primary text-base text-primary hover:bg-primary hover:text-white transition-all duration-500 font-medium"
-                        >
-                          View Projects
-                        </motion.a>
-                    </motion.div>
+            <div className="hero-home-grid gap-y-4 gap-x-6 px-0">
+                <div className="hero-desktop-stack px-10">
+                  {renderHeroBadge()}
+                  {renderHeroMainContent()}
                 </div>
 
-                <div className="mt-4 pt-2 sm:mt-0 sm:pt-0 relative w-full max-w-[680px] mx-auto lg:mx-0 lg:ms-auto">
-                    <FloatingImage
+                <div className="hero-mobile-only hero-mobile-badge hero-intro-col hero-badge-block relative z-10 text-sm pt-20 pb-8 px-10 justify-center">
+                  {renderHeroBadge()}
+                </div>
+
+                <div className="hero-image-block">
+                    <img
                       src={assetUrl(hero.image)}
                       alt="Security team at monitoring station"
-                      className="w-full h-[560px] md:h-[650px] object-cover object-center shadow-2xl ring-1 ring-black/10"
+                      className="hero-image-mobile shadow-2xl ring-1 ring-black/10"
                     />
+                    <div className="hero-image-desktop w-full">
+                      <img
+                        src={assetUrl(hero.image)}
+                        alt="Security team at monitoring station"
+                        className="shadow-2xl ring-1 ring-black/10"
+                      />
+                    </div>
 
                     <div className="absolute bottom-8 left-6 hidden xl:block">
                         <div className="flex items-center gap-2 p-2 pe-6 rounded-full bg-white shadow-2xl">
@@ -228,6 +263,10 @@ export default function InsonetPage() {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className="hero-mobile-only hero-mobile-content hero-intro-col hero-content-block relative z-10 text-sm pb-20 pt-0 px-10">
+                  {renderHeroMainContent()}
                 </div>
             </div>
 

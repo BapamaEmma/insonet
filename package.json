@@ -12,9 +12,16 @@
     "dev:all": "node scripts/dev-stable.js",
     "seed": "node server/seed.js",
     "build": "vite build",
+    "build:public_html": "node scripts/build-public-html.js",
+    "package:hostinger-upload": "node scripts/package-hostinger-upload.js",
+    "serve": "npm run build && vite preview --host 127.0.0.1 --port 4173",
+    "package:hostinger": "npm run build && zip -r insonet-deploy.zip . -x \"node_modules/*\" -x \".git/*\" -x \".env\" -x \"*.DS_Store\" -x \"insonet-deploy.zip\"",
     "start": "NODE_ENV=production node server/index.js",
     "lint": "eslint .",
     "preview": "vite preview"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "dependencies": {
     "busboy": "^1.6.0",
