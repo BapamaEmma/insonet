@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import FadeInUp from "../motion/FadeInUp";
 import ScrollReveal from "../motion/ScrollReveal";
@@ -427,7 +427,7 @@ export default function ServicePageLayout({
                 <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="/#home">Home</a></p>
                 <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="/#about">About Us</a></p>
                 <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="/#services">Services</a></p>
-                <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="/projects">Projects</a></p>
+                <p><Link className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" to="/projects">Projects</Link></p>
                 <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="/#contact">Contact</a></p>
               </div>
             </div>
@@ -435,12 +435,12 @@ export default function ServicePageLayout({
             <div className="col-span-1">
               <h4 className="font-semibold text-gray-100 uppercase text-sm tracking-wider">Services</h4>
               <div className="mt-6 grid space-y-3">
-                <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="/services/cctv">CCTV Surveillance</a></p>
-                <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="/services/network">Network Infrastructure</a></p>
-                <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="/services/access-control">Access Control</a></p>
-                <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="/services/cybersecurity">Cybersecurity</a></p>
-                <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="/services/perimeter-fencing">Perimeter Fencing</a></p>
-                <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="/services/hardware-maintenance">Hardware Maintenance</a></p>
+                <p><Link className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" to="/services/cctv">CCTV Surveillance</Link></p>
+                <p><Link className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" to="/services/network">Network Infrastructure</Link></p>
+                <p><Link className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" to="/services/access-control">Access Control</Link></p>
+                <p><Link className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" to="/services/cybersecurity">Cybersecurity</Link></p>
+                <p><Link className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" to="/services/perimeter-fencing">Perimeter Fencing</Link></p>
+                <p><Link className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" to="/services/hardware-maintenance">Hardware Maintenance</Link></p>
               </div>
             </div>
 

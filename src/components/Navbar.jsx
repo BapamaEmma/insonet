@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const navbarScripts = ["assets/libs/lucide/umd/lucide.min.js"];
 
@@ -130,7 +130,7 @@ export default function Navbar() {
   const navLinks = [
     { label: "Home", href: isHomePage ? "#home" : "/#home", onClick: goToSection("home") },
     { label: "Testimonials", href: isHomePage ? "#testimonial" : "/#testimonial", onClick: goToSection("testimonial") },
-    { label: "Projects", href: "/projects", onClick: goToService("/projects") },
+    { label: "Projects", href: "/projects", to: "/projects", onClick: goToService("/projects") },
     { label: "Contact", href: isHomePage ? "#contact" : "/#contact", onClick: goToSection("contact") },
   ];
 
@@ -253,13 +253,13 @@ export default function Navbar() {
                   >
                     {serviceLinks.map((service) => (
                       <li key={service.path}>
-                        <a
+                        <Link
                           className="mobile-nav-services__link block px-4 py-2 text-sm text-dark hover:bg-gray-50"
-                          href={service.path}
-                          onClick={goToService(service.path)}
+                          to={service.path}
+                          onClick={closeMobileMenu}
                         >
                           {service.label}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -270,13 +270,23 @@ export default function Navbar() {
                     key={link.label}
                     className="nav-item mx-1.5 transition-all text-dark lg:text-black group-[&.is-sticky]:text-dark duration-300 hover:text-primary [&.active]:!text-primary group-[&.is-sticky]:[&.active]:text-primary"
                   >
-                    <a
-                      className="nav-link nav-link-animated mobile-nav-link inline-flex items-center text-sm lg:text-base font-medium py-0.5 px-2 capitalize link-fade"
-                      href={link.href}
-                      onClick={link.onClick}
-                    >
-                      {link.label}
-                    </a>
+                    {link.to ? (
+                      <Link
+                        className="nav-link nav-link-animated mobile-nav-link inline-flex items-center text-sm lg:text-base font-medium py-0.5 px-2 capitalize link-fade"
+                        to={link.to}
+                        onClick={closeMobileMenu}
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a
+                        className="nav-link nav-link-animated mobile-nav-link inline-flex items-center text-sm lg:text-base font-medium py-0.5 px-2 capitalize link-fade"
+                        href={link.href}
+                        onClick={link.onClick}
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
 

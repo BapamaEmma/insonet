@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BackToTopButton from "./components/BackToTopButton";
 import ContactForm from "./components/ContactForm";
 import Navbar from "./components/Navbar";
@@ -609,7 +609,7 @@ export default function InsonetPage() {
                         <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300" href="#home">Home</a></p>
                         <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300" href="#about">About Us</a></p>
                         <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300" href="#services">Services</a></p>
-                        <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300" href="/projects">Projects</a></p>
+                        <p><Link className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300" to="/projects">Projects</Link></p>
                         <p><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300" href="#contact">Contact</a></p>
                     </div>
                 </div>
@@ -619,7 +619,7 @@ export default function InsonetPage() {
                     <h4 className="font-semibold text-gray-100 uppercase text-sm tracking-wider">Services</h4>
                     <div className="mt-6 grid space-y-3">
                         {services.map((service) => (
-                        <p key={service.id ?? service.title}><a className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300" href={service.link}>{service.title}</a></p>
+                        <p key={service.id ?? service.title}><Link className="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300" to={service.link}>{service.title}</Link></p>
                         ))}
                     </div>
                 </div>
