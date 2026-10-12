@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="../assets/images/favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../assets/images/favicon-192.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="../assets/images/favicon-192.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hardware & Infrastructure Maintenance — INSONET Systems</title>
+  <meta name="description" content="Preventive maintenance, hardware repairs, and SLA-backed support for security and IT infrastructure across Ghana." />
+
+  <!-- Google Fonts: DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/animations.css" />
+  <link rel="stylesheet" href="../assets/css/custom.css" />
+</head>
+<body class="font-sans antialiased text-default-900 bg-white">
+
+  <!-- Mobile Menu Backdrop -->
+  <div id="mobile-menu-backdrop" class="mobile-menu-backdrop" aria-hidden="true"></div>
+
+  <!-- Navbar -->
+  <nav
+    class="navbar fixed top-0 start-0 end-0 z-999 transition-all duration-500 py-5 items-center shadow-md bg-white"
+    id="navbar"
+  >
+    <div class="container">
+      <div class="flex lg:flex-nowrap flex-wrap items-center">
+        <a class="flex h-10 items-center" href="../index.html#home">
+          <img
+            src="../assets/images/insonet-logo-nav.png"
+            class="h-14 w-auto shrink-0"
+            alt="Insonet logo"
+          />
+        </a>
+
+        <div class="lg:hidden flex items-center ms-auto px-2.5">
+          <button
+            id="mobile-menu-toggle"
+            class="mobile-menu-toggle"
+            type="button"
+            aria-controls="navbarCollapse"
+            aria-expanded="false"
+            aria-label="Open menu"
+          >
+            <span class="mobile-menu-toggle__line"></span>
+            <span class="mobile-menu-toggle__line"></span>
+            <span class="mobile-menu-toggle__line"></span>
+          </button>
+        </div>
+
+        <div
+          class="navigation mobile-menu-panel lg:basis-auto basis-full grow items-center justify-center mx-auto overflow-visible lg:mt-0 nav-light lg:flex"
+          id="navbarCollapse"
+        >
+          <div class="mobile-menu-panel__inner">
+            <div class="mobile-menu-panel__header">
+              <a class="mobile-menu-panel__logo" href="../index.html#home">
+                <img
+                  src="../assets/images/insonet-logo-nav.png"
+                  alt="INSONET Systems"
+                />
+              </a>
+              <p class="mobile-menu-panel__tagline">Security &amp; Network Solutions</p>
+            </div>
+
+            <p class="mobile-menu-panel__label">Navigation</p>
+
+            <ul
+              class="navbar-nav mobile-menu-list flex-col lg:flex-row gap-y-2 flex lg:items-center justify-center"
+              id="navbar-navlist"
+            >
+              <li class="nav-item mx-1.5 transition-all text-dark lg:text-black hover:text-primary">
+                <a class="nav-link nav-link-animated mobile-nav-link inline-flex items-center text-sm lg:text-base font-medium py-0.5 px-2 capitalize link-fade" href="../index.html#home">
+                  Home
+                </a>
+              </li>
+
+              <li
+                id="nav-services-item"
+                class="nav-item mobile-nav-services relative mx-1.5 transition-all text-primary font-semibold"
+              >
+                <button
+                  id="nav-services-trigger"
+                  class="nav-link nav-link-animated mobile-nav-link mobile-nav-services__trigger inline-flex w-full items-center justify-between gap-1 text-sm lg:text-base font-medium py-0.5 px-2 capitalize link-fade active"
+                  type="button"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                >
+                  Services
+                  <i data-lucide="chevron-down" id="nav-services-chevron" class="mobile-nav-services__chevron h-4 w-4 transition-transform duration-200"></i>
+                </button>
+                <ul
+                  id="nav-services-menu"
+                  class="nav-services-menu"
+                  style="display: none;"
+                >
+                  <li><a class="mobile-nav-services__link block px-4 py-2 text-sm text-dark hover:bg-gray-50" href="cctv.html">CCTV Surveillance</a></li>
+                  <li><a class="mobile-nav-services__link block px-4 py-2 text-sm text-dark hover:bg-gray-50" href="network.html">Network Infrastructure</a></li>
+                  <li><a class="mobile-nav-services__link block px-4 py-2 text-sm text-dark hover:bg-gray-50" href="access-control.html">Access Control</a></li>
+                  <li><a class="mobile-nav-services__link block px-4 py-2 text-sm text-dark hover:bg-gray-50" href="cybersecurity.html">Cybersecurity</a></li>
+                  <li><a class="mobile-nav-services__link block px-4 py-2 text-sm text-dark hover:bg-gray-50" href="perimeter-fencing.html">Perimeter Fencing</a></li>
+                  <li><a class="mobile-nav-services__link block px-4 py-2 text-sm text-dark hover:bg-gray-50" href="hardware-maintenance.html">Hardware &amp; Maintenance</a></li>
+                </ul>
+              </li>
+
+              <li class="nav-item mx-1.5 transition-all text-dark lg:text-black hover:text-primary">
+                <a class="nav-link nav-link-animated mobile-nav-link inline-flex items-center text-sm lg:text-base font-medium py-0.5 px-2 capitalize link-fade" href="../index.html#about">
+                  About
+                </a>
+              </li>
+
+              <li class="nav-item mx-1.5 transition-all text-dark lg:text-black hover:text-primary">
+                <a class="nav-link nav-link-animated mobile-nav-link inline-flex items-center text-sm lg:text-base font-medium py-0.5 px-2 capitalize link-fade" href="../projects.html">
+                  Projects
+                </a>
+              </li>
+
+              <li class="nav-item mx-1.5 transition-all text-dark lg:text-black hover:text-primary">
+                <a class="nav-link nav-link-animated mobile-nav-link inline-flex items-center text-sm lg:text-base font-medium py-0.5 px-2 capitalize link-fade" href="../index.html#testimonial">
+                  Testimonial
+                </a>
+              </li>
+
+              <li class="nav-item mx-1.5 transition-all text-dark lg:text-black hover:text-primary">
+                <a class="nav-link nav-link-animated mobile-nav-link inline-flex items-center text-sm lg:text-base font-medium py-0.5 px-2 capitalize link-fade" href="../index.html#contact">
+                  Contact
+                </a>
+              </li>
+
+              <li class="nav-item mobile-menu-cta mx-1.5 lg:hidden">
+                <a
+                  href="../index.html#contact"
+                  class="mobile-menu-cta__btn btn-motion inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3 text-base font-semibold text-white transition-all duration-500 hover:bg-primaryDark"
+                >
+                  Get Qoute
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ms-auto shrink hidden lg:inline-flex gap-2">
+          <a
+            href="../index.html#contact"
+            class="btn-motion py-2 px-6 inline-flex items-center rounded-md text-base text-white bg-primary hover:bg-primaryDark transition-all duration-500 font-medium"
+          >
+            <span class="hidden sm:block">Get Qoute</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── Service Hero (Split Layout: Dark Text Side + Hero Image Side) ─────────── -->
+  <section class="service-hero-section">
+    <div class="service-hero-layout">
+      <div class="service-hero-text">
+        <div style="max-width: 560px; width: 100%;">
+          <span style="display: inline-block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px;">
+            <span style="color: #4fa3e0;">Proactive Support for </span>
+            <span style="color: #ffffff;">Systems That Stay Online</span>
+          </span>
+
+          <h1 style="color: #ffffff; font-size: clamp(2.25rem, 3.8vw, 3.75rem); line-height: 1.15; font-weight: 700; margin-bottom: 24px;">
+            Hardware Maintenance That Keeps You Running
+          </h1>
+
+          <div>
+            <p style="color: #d1d5db; font-size: 1.05rem; line-height: 1.7; margin-bottom: 16px;">Keep your security and network infrastructure healthy with scheduled maintenance, fast repairs, and SLA-backed support.</p>
+            <p style="color: #d1d5db; font-size: 1.05rem; line-height: 1.7; margin-bottom: 16px;">We service CCTV, access control, networking, and server hardware — preventing downtime before it affects your business.</p>
+            <p style="color: #d1d5db; font-size: 1.05rem; line-height: 1.7; margin-bottom: 16px;">INSONET provides reliable hardware maintenance across Ghana, from one-off repairs to ongoing service contracts.</p>
+          </div>
+
+          <div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 16px;">
+            <a
+              href="../index.html#contact"
+              class="btn-motion"
+              style="display: inline-flex; align-items: center; justify-content: center; padding: 14px 28px; border-radius: 8px; background-color: #1a56db; color: #ffffff; font-weight: 600; font-size: 0.95rem; text-decoration: none; box-shadow: 0 4px 14px rgba(26,86,219,0.35);"
+            >
+              Get Site Assessment &amp; Quote
+            </a>
+            <a
+              href="../projects.html"
+              class="btn-motion"
+              style="display: inline-flex; align-items: center; justify-content: center; padding: 14px 28px; border-radius: 8px; background-color: rgba(255,255,255,0.1); color: #ffffff; font-weight: 600; font-size: 0.95rem; text-decoration: none; border: 1px solid rgba(255,255,255,0.2);"
+            >
+              View Related Projects
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-hero-image">
+        <img
+          src="../assets/images/services/maintenance-hero.png"
+          alt="Technician in blue gloves repairing laptop internals on a workbench"
+          style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center;"
+        />
+        <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0d1b2e 0%, rgba(13,27,46,0.45) 18%, transparent 42%); pointer-events: none;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Devices & Components We Use ───────────────────────────── -->
+  <section style="padding: 80px 0; background-color: #ffffff;">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 48px;">
+        <h2 style="color: #0d1b2e; font-size: clamp(2rem, 3.5vw, 2.75rem); font-weight: 700; margin-bottom: 12px;">
+          Devices &amp; Components We Use
+        </h2>
+        <p style="color: #4fa3e0; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em;">
+          Hardware Maintenance & Support Scope
+        </p>
+      </div>
+
+      <div style="max-width: 920px; margin: 0 auto; border-radius: 20px; border: 2px solid #0d1b2e; overflow: hidden; box-shadow: 0 8px 30px rgba(13, 27, 46, 0.08);">
+        <div style="padding: 22px 28px; background-color: #ffffff; border-bottom: 1px solid #e5e7eb;">
+          <p style="margin: 0; font-size: 1rem; line-height: 1.6; color: #374151;">
+            <strong style="color: #0d1b2e; font-weight: 700;">Servers & Workstations:</strong> Routine servicing, upgrades, and health checks for business-critical computers and servers
+          </p>
+        </div>
+        <div style="padding: 22px 28px; background-color: #f3f4f6; border-bottom: 1px solid #e5e7eb;">
+          <p style="margin: 0; font-size: 1rem; line-height: 1.6; color: #374151;">
+            <strong style="color: #0d1b2e; font-weight: 700;">Network Switches & Routers:</strong> Firmware updates, port diagnostics, and performance tuning for LAN and WAN equipment
+          </p>
+        </div>
+        <div style="padding: 22px 28px; background-color: #ffffff; border-bottom: 1px solid #e5e7eb;">
+          <p style="margin: 0; font-size: 1rem; line-height: 1.6; color: #374151;">
+            <strong style="color: #0d1b2e; font-weight: 700;">CCTV Cameras & NVRs:</strong> Lens cleaning, storage checks, and recorder maintenance to keep surveillance online
+          </p>
+        </div>
+        <div style="padding: 22px 28px; background-color: #f3f4f6; border-bottom: 1px solid #e5e7eb;">
+          <p style="margin: 0; font-size: 1rem; line-height: 1.6; color: #374151;">
+            <strong style="color: #0d1b2e; font-weight: 700;">Access Control Hardware:</strong> Reader calibration, lock servicing, and controller updates for reliable entry management
+          </p>
+        </div>
+        <div style="padding: 22px 28px; background-color: #ffffff; border-bottom: 1px solid #e5e7eb;">
+          <p style="margin: 0; font-size: 1rem; line-height: 1.6; color: #374151;">
+            <strong style="color: #0d1b2e; font-weight: 700;">UPS & Power Backup:</strong> Battery testing, replacement, and load checks to protect systems from power failures
+          </p>
+        </div>
+        <div style="padding: 22px 28px; background-color: #f3f4f6; border-bottom: 1px solid #e5e7eb;">
+          <p style="margin: 0; font-size: 1rem; line-height: 1.6; color: #374151;">
+            <strong style="color: #0d1b2e; font-weight: 700;">Cabling & Patch Panels:</strong> Inspection, re-termination, and labelling to maintain clean, fault-free connectivity
+          </p>
+        </div>
+        <div style="padding: 22px 28px; background-color: #ffffff; ">
+          <p style="margin: 0; font-size: 1rem; line-height: 1.6; color: #374151;">
+            <strong style="color: #0d1b2e; font-weight: 700;">Preventive Maintenance SLAs:</strong> Scheduled visits, response-time guarantees, and reporting to keep your systems running
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Why Choose INSONET ───────────────────────────────────── -->
+  <section style="background-color: #ffffff; padding: 80px 0; border-top: 1px solid #f1f5f9;">
+    <div class="container service-why-container" style="display: flex; flex-direction: row; align-items: center; gap: 56px;">
+      <div class="service-why-text" style="flex: 1 1 500px; padding: 48px 40px; max-width: 640px;">
+        <span style="display: inline-block; text-transform: uppercase; font-weight: 600; letter-spacing: 0.12em; color: #4fa3e0; font-size: 0.8rem; margin-bottom: 16px;">
+          Why Choose INSONET
+        </span>
+        <h2 style="color: #0d1b2e; font-size: clamp(1.875rem, 3vw, 2.5rem); font-weight: 700; line-height: 1.25; margin-bottom: 24px;">
+          Ghana's Trusted Hardware<br />Maintenance Partner
+        </h2>
+        <p style="color: #4b5563; font-size: 1.05rem; line-height: 1.75; margin-bottom: 32px;">
+          INSONET Systems keeps your security and network equipment running at peak performance. We offer preventive maintenance, emergency repairs, and flexible SLA contracts — so your CCTV, access control, and infrastructure stay online when you need them most.
+        </p>
+        <ul style="display: grid; gap: 14px; margin-bottom: 36px; padding: 28px 24px; background-color: #f8fafc; border-radius: 16px; border: 1px solid #e5e7eb; list-style: none;">
+            <li style="color: #374151; font-size: 0.98rem; line-height: 1.6; display: flex; align-items: flex-start; gap: 12px; padding: 4px 0;">
+              <svg style="color: #4fa3e0; width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Scheduled preventive maintenance visits</span>
+            </li>
+            <li style="color: #374151; font-size: 0.98rem; line-height: 1.6; display: flex; align-items: flex-start; gap: 12px; padding: 4px 0;">
+              <svg style="color: #4fa3e0; width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Fast response for breakdowns and faults</span>
+            </li>
+            <li style="color: #374151; font-size: 0.98rem; line-height: 1.6; display: flex; align-items: flex-start; gap: 12px; padding: 4px 0;">
+              <svg style="color: #4fa3e0; width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>CCTV, network, and access control servicing</span>
+            </li>
+            <li style="color: #374151; font-size: 0.98rem; line-height: 1.6; display: flex; align-items: flex-start; gap: 12px; padding: 4px 0;">
+              <svg style="color: #4fa3e0; width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Flexible SLA contracts for businesses and campuses</span>
+            </li>
+            <li style="color: #374151; font-size: 0.98rem; line-height: 1.6; display: flex; align-items: flex-start; gap: 12px; padding: 4px 0;">
+              <svg style="color: #4fa3e0; width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Based in Spintex, Accra — fast local response</span>
+            </li>
+        </ul>
+
+        <div style="display: flex; flex-direction: column; gap: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb;">
+          <a href="tel:+233262842077" class="link-fade" style="display: inline-flex; align-items: center; color: #374151; font-size: 0.95rem; gap: 14px; text-decoration: none;">
+            <span style="display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; background-color: #1a56db; width: 40px; height: 40px; border-radius: 9999px;">
+              <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+            </span>
+            +233 2628 42 077
+          </a>
+          <a href="mailto:info@insonetgh.com" class="link-fade" style="display: inline-flex; align-items: center; color: #374151; font-size: 0.95rem; gap: 14px; text-decoration: none;">
+            <span style="display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; background-color: #1a56db; width: 40px; height: 40px; border-radius: 9999px;">
+              <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </span>
+            info@insonetgh.com
+          </a>
+        </div>
+      </div>
+
+      <div class="service-why-image" style="flex: 1 1 380px; max-width: 420px; width: 100%; border-radius: 20px; padding: 8px; background-color: #f8fafc; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); margin: 0 auto; overflow: hidden;">
+        <img
+          src="../assets/images/services/maintenance-about.png"
+          alt="INSONET technician performing hardware maintenance"
+          style="width: 100%; height: 100%; min-height: 464px; max-height: 544px; object-fit: cover; object-position: center center; border-radius: 14px; display: block;"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Footer ────────────────────────────────────────────────── -->
+  <footer class="bg-[#17243A]">
+    <div class="container">
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 pb-16 pt-16">
+        <div class="col-span-full lg:col-span-2">
+          <div class="flex items-center">
+            <a href="../index.html#home" class="inline-flex items-center me-5">
+              <img
+                src="../assets/images/insonet-logo-nav.png"
+                class="h-14 w-auto shrink-0"
+                alt="INSONET Systems logo"
+              />
+            </a>
+          </div>
+          <p class="text-white max-w-xs mt-6 text-sm leading-relaxed">
+            INSONET Systems delivers professional security and network solutions — CCTV, access control,
+            network infrastructure, and more — to businesses across Ghana.
+          </p>
+          <div class="mt-6 grid space-y-3">
+            <a class="inline-flex items-center gap-x-3 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="mailto:info@insonetgh.com">
+              info@insonetgh.com
+            </a>
+            <a class="inline-flex items-center gap-x-3 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="tel:+233262842077">
+              +233 2628 42 077
+            </a>
+            <a class="inline-flex items-center gap-x-3 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="https://maps.google.com/?q=Spintex,Accra,Ghana" target="_blank" rel="noreferrer">
+              Spintex, Accra, Ghana
+            </a>
+          </div>
+        </div>
+
+        <div class="col-span-1">
+          <h4 class="font-semibold text-gray-100 uppercase text-sm tracking-wider">Quick Links</h4>
+          <div class="mt-6 grid space-y-3">
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="../index.html#home">Home</a></p>
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="../index.html#about">About Us</a></p>
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="../index.html#services">Services</a></p>
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="../projects.html">Projects</a></p>
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="../index.html#testimonial">Testimonials</a></p>
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="../index.html#contact">Contact Us</a></p>
+          </div>
+        </div>
+
+        <div class="col-span-1">
+          <h4 class="font-semibold text-gray-100 uppercase text-sm tracking-wider">Our Services</h4>
+          <div class="mt-6 grid space-y-3">
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="cctv.html">CCTV Surveillance</a></p>
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="network.html">Network Infrastructure</a></p>
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="access-control.html">Access Control</a></p>
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="cybersecurity.html">Cybersecurity</a></p>
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="perimeter-fencing.html">Perimeter Fencing</a></p>
+            <p><a class="inline-flex gap-x-2 text-sm text-gray-300 hover:text-white transition-all duration-300 link-fade" href="hardware-maintenance.html">Hardware Maintenance</a></p>
+          </div>
+        </div>
+
+        <div class="col-span-1">
+          <h4 class="font-semibold text-gray-100 uppercase text-sm tracking-wider">Follow Us</h4>
+          <div class="mt-6 flex flex-wrap gap-2">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Facebook"
+              class="social-icon-motion h-9 w-9 inline-flex items-center justify-center rounded-md bg-white/10 text-gray-300 hover:bg-primary hover:text-white transition-all duration-300"
+            >
+              <i data-lucide="facebook" class="h-4 w-4"></i>
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+              class="social-icon-motion h-9 w-9 inline-flex items-center justify-center rounded-md bg-white/10 text-gray-300 hover:bg-primary hover:text-white transition-all duration-300"
+            >
+              <i data-lucide="instagram" class="h-4 w-4"></i>
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+              class="social-icon-motion h-9 w-9 inline-flex items-center justify-center rounded-md bg-white/10 text-gray-300 hover:bg-primary hover:text-white transition-all duration-300"
+            >
+              <i data-lucide="linkedin" class="h-4 w-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-white/10 py-6 text-center text-sm text-gray-400">
+        <p>&copy; 2026 INSONET Systems. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../assets/libs/lucide/umd/lucide.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
